@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Audio Board</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f4f4f4;
+  text-align: center;
+}
+
+.image-container {
+  height: 25vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.image-container img {
+  max-height: 100%;
+  max-width: 90%;
+  object-fit: contain;
+}
+
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+button {
+  flex: 1 1 30%;
+  margin: 5px;
+  padding: 20px 0;
+  font-size: 22px;
+  font-weight: bold;
+  border: none;
+  border-radius: 10px;
+  color: white;
+}
+
+button.grey {
+  background: #888 !important;
+}
+</style>
+</head>
+
+<body>
+
+<div class="image-container">
+  <img src="image.jpg" alt="Top Image">
+</div>
+
+<div class="container" id="buttonContainer">
+  <button data-id="a1" style="background:#e74c3c;">1</button>
+  <button data-id="a2" style="background:#3498db;">2</button>
+  <button data-id="a3" style="background:#2ecc71;">3</button>
+  <button data-id="a4" style="background:#f1c40f;">4</button>
+  <button data-id="a5" style="background:#9b59b6;">5</button>
+  <button data-id="a6" style="background:#1abc9c;">6</button>
+  <button data-id="a7" style="background:#e67e22;">7</button>
+  <button data-id="a8" style="background:#34495e;">8</button>
+  <button data-id="a9" style="background:#ff6b81;">9</button>
+  <button data-id="a10" style="background:#6c5ce7;">10</button>
+  <button data-id="a11" style="background:#00b894;">11</button>
+  <button data-id="a12" style="background:#d63031;">12</button>
+</div>
+
+<!-- Audio elements -->
+<audio id="a1" src="audio1.mp3"></audio>
+<audio id="a2" src="audio2.mp3"></audio>
+<audio id="a3" src="audio3.mp3"></audio>
+<audio id="a4" src="audio4.mp3"></audio>
+<audio id="a5" src="audio5.mp3"></audio>
+<audio id="a6" src="audio6.mp3"></audio>
+<audio id="a7" src="audio7.mp3"></audio>
+<audio id="a8" src="audio8.mp3"></audio>
+<audio id="a9" src="audio9.mp3"></audio>
+<audio id="a10" src="audio10.mp3"></audio>
+<audio id="a11" src="audio11.mp3"></audio>
+<audio id="a12" src="audio12.mp3"></audio>
+
+<script>
+var currentAudio = null;
+var buttons = document.querySelectorAll("button");
+
+function resetButtons() {
+  for (var i = 0; i < buttons.length; i++) {
+    buttons[i].classList.remove("grey");
+  }
+}
+
+function stopAllAudio() {
+  var audios = document.querySelectorAll("audio");
+  for (var i = 0; i < audios.length; i++) {
+    audios[i].pause();
+    audios[i].currentTime = 0;
+  }
+  currentAudio = null;
+  resetButtons();
+}
+
+for (var i = 0; i < buttons.length; i++) {
+  buttons[i].addEventListener("click", function(event) {
+
+    event.stopPropagation();
+
+    var id = this.getAttribute("data-id");
+    var audio = document.getElementById(id);
+
+    stopAllAudio();
+
+    currentAudio = audio;
+    audio.play();
+
+    for (var j = 0; j < buttons.length; j++) {
+      if (buttons[j] !== this) {
+        buttons[j].classList.add("grey");
+      }
+    }
+  });
+}
+
+document.body.addEventListener("click", function() {
+  if (currentAudio) {
+    stopAllAudio();
+  }
+});
+</script>
+
+</body>
+</html>
